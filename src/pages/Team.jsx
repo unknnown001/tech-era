@@ -72,7 +72,7 @@ const departments = [
     members: [
       { id: "em1", name: "Pushp Sharma",     role: "Logistics",      initials: "HT", linkedin: "https://www.linkedin.com/in/pushp-sharma-95b233376?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
       { id: "em2", name: "Vansh Chaudhari",  role: "Outreach",       initials: "RP", linkedin: "https://www.linkedin.com/in/vansh-chaudhari9370?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
-      { id: "em7", name: "Gaurav Kumar",     role: "Event planning & scheduling",     initials: "S",  linkedin: "https://www.linkedin.com/in/sejal-baisla-63b6b639a?utm_source=share_via&utm_content=profile&utm_medium=member_android" },
+      { id: "em7", name: "Gaurav Kumar",     role: "Event planning & scheduling",     initials: "S",  linkedin: "https://www.linkedin.com/in/gaurav-kumar-19a142342/" },
       { id: "em3", name: "Pragati Jain",     role: "Coordinator",    initials: "YM", linkedin: "https://www.linkedin.com/in/pragati-jain-7b3b62368?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
       { id: "em4", name: "Bhavya Jain",      role: "Volunteer Head", initials: "AK", linkedin: "https://www.linkedin.com/in/bhavya-jain-01b776341?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
       { id: "em5", name: "Karthik Chilkori", role: "Outreach", initials: "KC", linkedin: "https://www.linkedin.com/in/kartik-chilkoti" },
