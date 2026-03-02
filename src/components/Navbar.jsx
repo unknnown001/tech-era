@@ -14,19 +14,19 @@ export function useSharedFonts() {
 }
 
 const NAV_LINKS = [
-  { label: "Home",      href: "/"         },
-  { label: "Events",    href: "/events"    },
-  { label: "Team",      href: "/team"      },
-  { label: "Sponsers",      href: "/sponser" },
-  { label: "About Us",      href: "/about" }
+  { label: "Home", href: "/" },
+  { label: "Events", href: "/events" },
+  { label: "Team", href: "/team" },
+  { label: "Sponsors", href: "/sponsor" },
+  { label: "About Us", href: "/about" }
 ];
 
 export default function Navbar() {
   useSharedFonts();
 
-  const [scrolled,    setScrolled]    = useState(false);
-  const [menuOpen,    setMenuOpen]    = useState(false);
-  const [activeLink,  setActiveLink]  = useState("/");
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState("/");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -84,27 +84,27 @@ export default function Navbar() {
             aria-label="TechEra home"
           >
             <div
-  style={{
-    width: 42,
-    height: 42,
-    borderRadius: 10,
-    overflow: "hidden",          // 👈 important
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    flexShrink: 0,
-  }}
->
-  <img
-    src="/images/logo.jpg"
-    alt="TechEra Logo"
-    style={{
-      width: "100%",
-      height: "100%",
-      objectFit: "contain",   // 👈 logo ke liye best
-    }}
-  />
-</div>
+              style={{
+                width: 42,
+                height: 42,
+                borderRadius: 10,
+                overflow: "hidden",          // 👈 important
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
+            >
+              <img
+                src="/images/logo.jpg"
+                alt="TechEra Logo"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",   // 👈 logo ke liye best
+                }}
+              />
+            </div>
             <span
               style={{
                 fontFamily: "'Syne', sans-serif",
@@ -238,8 +238,8 @@ function NavLink({ link, isActive }) {
         background: isActive
           ? "rgba(0,238,255,0.07)"
           : hov
-          ? "rgba(255,255,255,0.04)"
-          : "transparent",
+            ? "rgba(255,255,255,0.04)"
+            : "transparent",
         border: isActive
           ? "1px solid rgba(0,238,255,0.18)"
           : "1px solid transparent",
