@@ -46,7 +46,9 @@ const GlobalStyles = () => (
     .evl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 28px 80px; }
     .ev-card { position: relative; border-radius: 20px; border: 1px solid rgba(255,255,255,.05); background: #0A1628; overflow: hidden; cursor: pointer; transition: transform .35s cubic-bezier(.23,1,.32,1), border-color .35s, box-shadow .35s; }
     .ev-card:hover { transform: translateY(-6px); }
+    .ev-card.collab-card { cursor: default; }
     .ev-card-banner { width: 100%; height: 180px; overflow: hidden; position: relative; }
+    .ev-card-banner.collab-banner-tall { height: 260px; }
     .ev-card-mode-badge { position: absolute; top: 12px; right: 12px; padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; font-family: 'Space Mono', monospace; backdrop-filter: blur(8px); }
     .ev-card-body { padding: 18px 20px 20px; }
     .ev-card-org { font-size: 11px; font-weight: 700; color: #4F46E5; letter-spacing: .1em; text-transform: uppercase; font-family: 'Space Mono', monospace; margin-bottom: 6px; }
@@ -56,6 +58,13 @@ const GlobalStyles = () => (
     .ev-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.05); }
     .ev-card-view-btn { padding: 7px 16px; border-radius: 9px; font-size: 12px; font-weight: 700; background: rgba(0,238,255,.08); border: 1px solid rgba(0,238,255,.2); color: #00EEFF; cursor: pointer; transition: background .2s, transform .2s; font-family: 'Manrope', sans-serif; }
     .ev-card-view-btn:hover { background: rgba(0,238,255,.15); transform: scale(1.04); }
+
+    /* ── COLLAB BANNER ── */
+    .ev-collab-banner { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .ev-collab-banner-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 900; color: white; letter-spacing: -.02em; text-align: center; position: relative; z-index: 2; line-height: 1.2; padding: 0 12px; }
+    .ev-collab-banner-badge { position: relative; z-index: 2; margin-top: 10px; padding: 4px 14px; border-radius: 999px; font-size: 10px; font-weight: 700; font-family: 'Space Mono', monospace; letter-spacing: .12em; border: 1px solid; }
+    .ev-collab-partner-row { position: relative; z-index: 2; display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+    .ev-collab-partner-chip { padding: 3px 12px; border-radius: 999px; font-size: 10px; font-weight: 700; font-family: 'Space Mono', monospace; border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.07); color: rgba(255,255,255,.75); }
 
     .gi-section { max-width: 1200px; margin: 0 auto; padding: 0 28px 100px; }
     .gi-header { text-align: center; margin-bottom: 56px; }
@@ -95,7 +104,6 @@ const GlobalStyles = () => (
     .evd-title { font-family: 'Syne', sans-serif; font-size: clamp(26px,5vw,52px); font-weight: 900; line-height: 1.05; letter-spacing: -.02em; }
     .evd-attendee-badge { display: flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(167,139,250,.2); background: rgba(167,139,250,.06); font-size: 13px; font-weight: 700; color: #A78BFA; font-family: 'Space Mono', monospace; white-space: nowrap; }
 
-    /* BANNER FIX — dedicated padded wrapper keeps rounded corners intact */
     .evd-cover-wrap { padding: 22px 28px 0; max-width: 1200px; margin: 0 auto; }
     .evd-cover { width: 100%; height: clamp(220px,35vw,420px); border-radius: 22px; overflow: hidden; border: 1px solid rgba(255,255,255,.06); position: relative; }
 
@@ -237,16 +245,114 @@ const GlobalStyles = () => (
 );
 
 const AGENDA_TYPE_STYLES = {
-  logistics: { color:"#94A3B8", bg:"rgba(148,163,184,.1)",  border:"rgba(148,163,184,.2)" },
-  keynote:   { color:"#FEBC2E", bg:"rgba(254,188,46,.08)",  border:"rgba(254,188,46,.2)"  },
-  session:   { color:"#00EEFF", bg:"rgba(0,238,255,.08)",   border:"rgba(0,238,255,.2)"   },
-  break:     { color:"#4ADE80", bg:"rgba(74,222,128,.08)",  border:"rgba(74,222,128,.2)"  },
-  workshop:  { color:"#A78BFA", bg:"rgba(167,139,250,.08)", border:"rgba(167,139,250,.2)" },
-  panel:     { color:"#F97316", bg:"rgba(249,115,22,.08)",  border:"rgba(249,115,22,.2)"  },
-  qa:        { color:"#4F46E5", bg:"rgba(79,70,229,.08)",   border:"rgba(79,70,229,.2)"   },
+  logistics:   { color:"#94A3B8", bg:"rgba(148,163,184,.1)",  border:"rgba(148,163,184,.2)" },
+  keynote:     { color:"#FEBC2E", bg:"rgba(254,188,46,.08)",  border:"rgba(254,188,46,.2)"  },
+  session:     { color:"#00EEFF", bg:"rgba(0,238,255,.08)",   border:"rgba(0,238,255,.2)"   },
+  presentation:{ color:"#38BDF8", bg:"rgba(56,189,248,.08)", border:"rgba(56,189,248,.2)" },
+  break:       { color:"#4ADE80", bg:"rgba(74,222,128,.08)",  border:"rgba(74,222,128,.2)"  },
+  activity:    { color:"#A78BFA", bg:"rgba(167,139,250,.08)", border:"rgba(167,139,250,.2)" },
+  competition: { color:"#F43F5E", bg:"rgba(244,63,94,.08)",  border:"rgba(244,63,94,.2)"  },
+  sponsor:     { color:"#F97316", bg:"rgba(249,115,22,.08)",  border:"rgba(249,115,22,.2)"  },
+  closing:     { color:"#4F46E5", bg:"rgba(79,70,229,.08)",   border:"rgba(79,70,229,.2)"   },
 };
 const DETAIL_TABS = ["Event Descriptions","Agenda / Track","People & Partners","FAQ & Contact Us"];
 
+// ─── COLLAB BANNER COMPONENT ──────────────────────────────────────────────────
+function CollabBanner({ ev }) {
+  const canvasRef = useRef(null);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    let raf;
+    const resize = () => {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    };
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas.parentElement);
+    const acc = ev.accentColor || "#00EEFF";
+    const r = parseInt(acc.slice(1,3),16);
+    const g = parseInt(acc.slice(3,5),16);
+    const b = parseInt(acc.slice(5,7),16);
+    const pts = Array.from({length:22},()=>({
+      x:Math.random(), y:Math.random(),
+      vx:(Math.random()-.5)*.0003, vy:(Math.random()-.5)*.0003,
+      rad:Math.random()*1.4+.5, a:Math.random()*.3+.08
+    }));
+    const draw = () => {
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0,0,w,h);
+      pts.forEach(p => {
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0||p.x>1)p.vx*=-1;
+        if(p.y<0||p.y>1)p.vy*=-1;
+        ctx.beginPath();
+        ctx.arc(p.x*w,p.y*h,p.rad,0,Math.PI*2);
+        ctx.fillStyle=`rgba(${r},${g},${b},${p.a})`;
+        ctx.fill();
+      });
+      const thresh = Math.min(w,h)*.16;
+      pts.forEach((a,i) => pts.slice(i+1).forEach(b2 => {
+        const d = Math.hypot((a.x-b2.x)*w,(a.y-b2.y)*h);
+        if(d<thresh){
+          ctx.beginPath(); ctx.moveTo(a.x*w,a.y*h); ctx.lineTo(b2.x*w,b2.y*h);
+          ctx.strokeStyle=`rgba(${r},${g},${b},${.05*(1-d/thresh)})`;
+          ctx.lineWidth=.5; ctx.stroke();
+        }
+      }));
+      raf = requestAnimationFrame(draw);
+    };
+    draw();
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+  }, [ev.accentColor]);
+
+  const acc = ev.accentColor || "#00EEFF";
+  const partners = (ev.sponsors||[]).concat(ev.communityPartners||[]).filter(p=>p.name!=="TechEra");
+
+  return (
+    <div style={{width:"100%",height:"100%",position:"relative",overflow:"hidden",background:ev.bannerGradient}}>
+      <canvas ref={canvasRef} style={{position:"absolute",inset:0,width:"100%",height:"100%",pointerEvents:"none"}} />
+      {/* Glow orb */}
+      <div style={{position:"absolute",top:"10%",left:"50%",transform:"translateX(-50%)",width:"60%",height:"70%",borderRadius:"50%",background:`radial-gradient(ellipse, ${acc}18, transparent 70%)`,pointerEvents:"none"}} />
+      {/* Content */}
+      <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:8,padding:"0 16px",zIndex:2}}>
+        {/* Collab badge */}
+        <div style={{padding:"3px 12px",borderRadius:999,border:`1px solid ${acc}50`,background:`${acc}18`,fontSize:10,fontWeight:700,fontFamily:"Space Mono,monospace",color:acc,letterSpacing:".15em",marginBottom:2}}>
+          🤝 COMMUNITY PARTNER
+        </div>
+        {/* Event name */}
+        <div style={{fontFamily:"Syne,sans-serif",fontSize:20,fontWeight:900,color:"white",textAlign:"center",lineHeight:1.2,letterSpacing:"-.02em",textShadow:`0 0 24px ${acc}50`}}>
+          {ev.name}
+        </div>
+        {/* Powered by row */}
+        {partners.length > 0 && (
+          <div style={{display:"flex",alignItems:"center",gap:6,marginTop:4,flexWrap:"wrap",justifyContent:"center"}}>
+            <span style={{fontSize:10,color:"rgba(255,255,255,.4)",fontFamily:"Space Mono,monospace"}}>powered by</span>
+            {partners.map((p,i) => (
+              <span key={i} style={{padding:"2px 10px",borderRadius:999,fontSize:10,fontWeight:700,fontFamily:"Space Mono,monospace",border:"1px solid rgba(255,255,255,.15)",background:"rgba(255,255,255,.07)",color:"rgba(255,255,255,.8)"}}>
+                {p.name}
+              </span>
+            ))}
+          </div>
+        )}
+        {/* Date + location row */}
+        <div style={{display:"flex",alignItems:"center",gap:10,marginTop:6,flexWrap:"wrap",justifyContent:"center"}}>
+          <span style={{fontSize:11,color:"rgba(255,255,255,.55)",display:"flex",alignItems:"center",gap:4}}>
+            📅 {ev.date}
+          </span>
+          <span style={{width:3,height:3,borderRadius:"50%",background:"rgba(255,255,255,.25)",flexShrink:0}} />
+          <span style={{fontSize:11,color:"rgba(255,255,255,.55)",display:"flex",alignItems:"center",gap:4}}>
+            📍 {ev.location}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── ICONS ────────────────────────────────────────────────────────────────────
 const GitHubIcon   = () => <svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>;
 const LinkedInIcon = () => <svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>;
 const InstaIcon    = () => <svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>;
@@ -261,9 +367,10 @@ const ArrowLeft    = () => <svg width="14" height="14" fill="none" viewBox="0 0 
 const ArrowRight   = () => <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>;
 const TicketIcon   = () => <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} style={{flexShrink:0}}><path strokeLinecap="round" strokeLinejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/></svg>;
 
+// ─── DATA ─────────────────────────────────────────────────────────────────────
 const INITIAL_EVENTS = [
   {
-    id:1, name:"🚀 Developers Meetup 2026", organizer:"​TechEra × Tech4Hack Presents",
+    id:1, name:"🚀 Developers Meetup 2026", organizer:"​TechEra Presents",
     date:"07th March 2026", day:"Saturday", time:"09:30 AM ONWARDS", fees:"Free", mode:"Offline",
     location:"ThoughtWork Office, Gurugram", attendees:"200 Limited Seats", category:"Meetup",
     status:"active",
@@ -273,14 +380,20 @@ const INITIAL_EVENTS = [
 ​This meetup is more than just an event — it is a high-energy networking and opportunity-driven experience where participants will interact with like-minded individuals, discover collaboration opportunities, explore internships and project possibilities, and become part of a fast-growing developer network focused on real impact.
 ​Whether you are a beginner starting your journey, a student exploring opportunities, or an experienced developer looking to expand your network, this meetup is structured to help you connect, collaborate, and grow faster.`,
     links:{ website:"https://luma.com/esw4feoh", linkedin:"https://www.linkedin.com/company/techeraa/", instagram:"https://www.instagram.com/tech__eraa?igsh=ZTNlcXBobWZ0NG16" },
-    agenda:[
-      {time:"09:30 AM – 10:00 AM",title:"Verification & Check-in",type:"logistics"},
-      {time:"10:00 AM – 12:30 PM",title:"Welcome & Opening Remarks",type:"keynote"},
-      {time:"12:30 PM – 1:30 PM", title:"Understanding Fabric Data Agents",type:"session"},
-      {time:"1:30 PM – 2:00 PM",  title:"Lunch Break",type:"break"},
-      {time:"2:00 PM – 3:30 PM",  title:"Guided Hands-on / Demo-Assisted Session",type:"workshop"},
-      {time:"3:30 PM – 4:30 PM",  title:"General Tech Panel Discussion",type:"panel"},
-      {time:"4:30 PM – 5:00 PM",  title:"Q&A, Learning Paths & Certifications",type:"qa"},
+    agenda: [
+      { time: "09:30 AM – 10:00 AM", title: "Verification & Check-in", type: "logistics" },
+      { time: "10:15 AM – 10:45 AM", title: "Welcome & Event Overview", type: "keynote" },
+      { time: "10:48 AM – 11:28 AM", title: "Key Speaker 1", type: "session" },
+      { time: "11:31 AM – 12:01 PM", title: "Tech4Hack Presentation", type: "presentation" },
+      { time: "12:04 PM – 12:24 PM", title: "Coffee Break", type: "break" },
+      { time: "12:27 PM – 12:32 PM", title: "Team Distribution", type: "activity" },
+      { time: "12:32 PM – 01:02 PM", title: "Lunch and Networking", type: "break" },
+      { time: "01:05 PM – 01:45 PM", title: "Fun Group Activity", type: "activity" },
+      { time: "01:48 PM – 02:28 PM", title: "Key Speaker 2", type: "session" },
+      { time: "02:31 PM – 02:46 PM", title: "Competition Segment", type: "competition" },
+      { time: "02:49 PM – 03:04 PM", title: "Pizza Sponsor", type: "sponsor" },
+      { time: "03:07 PM – 03:22 PM", title: "MetaSpace Address and Final Results", type: "closing" },
+      { time: "03:22 PM – 03:30 PM", title: "Closing With Some Group Pictures", type: "closing" },
     ],
     organiserTeam:[
       {name:"Aditya ",  tagline:"Founder",       initials:"AM",accent:"#00EEFF"},
@@ -301,6 +414,8 @@ const INITIAL_EVENTS = [
       {name:"Edubuk",tagline:"Job and knowledge Partner",initials:"CB",accent:"#94A3B8"},
       {name:"OSEN ",tagline:"Goodies Partner",initials:"DS",accent:"#00EEFF"},
       {name:"Digimation Flight",tagline:"Food Partner",initials:"IV",accent:"#A78BFA"},
+      {name:"Ops-skill",tagline:"Innovation Partner",initials:"IV",accent:"#bae7bd"},
+      {name:"MetaSpace",tagline:"Goodies Partner",initials:"IV",accent:"#cce883"},
     ],
     communityPartners:[
       {name:"Tech4Hack",tagline:"Open Source Community",initials:"GN",accent:"#4F46E5"},
@@ -349,13 +464,13 @@ const INITIAL_EVENTS = [
     bannerUrl:"/images/Workshop-banner.png", bannerGradient:"linear-gradient(135deg,#050d1a 0%,#0f2c1a 60%,#050d1a 100%)", accentColor:"#4ADE80",
     description:"EDUBUK in collaboration with TechEra presents an exclusive online career-focused session for students and early professionals.\n ​'CV to Career: A TruTalk by EDUBUK × TechEra' is a live interactive session designed to help participants understand how blockchain-verified learning, certifications, and career platforms are reshaping internships, placements, and long-term career growth.\n ​Through this session, participants will gain insights into how TruCV & TruJobs, powered by EDUBUK, enable trusted professional profiles and unlock national and international career opportunities through verified credentials.",
     links:{website:"#",linkedin:"#",instagram:"#"},
-    agenda:[
-      {time:"12:00 PM – 12:05 PM",title:"Welcome & Introduction (EDUBUK × TechEra)",type:"keynote"},
-      {time:"​12:05 PM – 12:25 PM",title:"From CV to Career: Why Verification Matters",type:"session"},
-      {time:"12:25 PM – 12:45 PM",title:"TruCV & TruJobs: Building Trusted Career Profiles",type:"workshop"},
-      {time:"12:45 PM – 01:05 PM",title:"Certifications, Internships & Career Opportunities",type:"break"},
-      {time:"​01:05 PM – 01:20 PM",title:"Live Q&A and Student Interaction",type:"panel"},
-      {time:"​01:20 PM – 01:30 PM",title:"Surprise Giveaway & Closing Note",type:"qa"},
+    agenda: [
+      { time: "12:00 PM – 12:05 PM", title: "Welcome & Introduction (EDUBUK × TechEra)", type: "keynote" },
+      { time: "12:05 PM – 12:25 PM", title: "From CV to Career: Why Verification Matters", type: "session" },
+      { time: "12:25 PM – 12:45 PM", title: "TruCV & TruJobs: Building Trusted Career Profiles", type: "presentation" },
+      { time: "12:45 PM – 01:05 PM", title: "Certifications, Internships & Career Opportunities", type: "session" },
+      { time: "01:05 PM – 01:20 PM", title: "Live Q&A and Student Interaction", type: "activity" },
+      { time: "01:20 PM – 01:30 PM", title: "Surprise Giveaway & Closing Note", type: "closing" },
     ],
     organiserTeam:[
       {name:"Aditya ",  tagline:"Founder",       initials:"AM",accent:"#00EEFF"},
@@ -373,6 +488,122 @@ const INITIAL_EVENTS = [
     faqs:[
       {q:"How do I get the meeting link?",a:"You'll receive it via email after registration."},
       {q:"Is it recorded?",a:"Yes, all sessions will be available on demand post event."},
+    ],
+  },
+  // ─── COLLAB EVENTS ───────────────────────────────────────────────────────────
+  {
+    id:4,
+    name:"LockedIn",
+    organizer:"CracKed × HERMEiAS",
+    date:"1st November 2025",
+    day:"Saturday",
+    time:"Evening",
+    fees:"Free",
+    mode:"Offline",
+    location:"Delhi",
+    attendees:"TBA",
+    category:"Collaborations",
+    status:"expired",
+    registerLink:"#",
+    bannerUrl:null,
+    bannerGradient:"linear-gradient(135deg,#0a0515 0%,#1a0a2e 45%,#0d1a2e 100%)",
+    accentColor:"#A78BFA",
+    description:"TechEra is the proud Community Partner for LockedIn — powered by CracKed and HERMEiAS.\n\nAn evening where builders, coders, and creators come together to showcase what they've been working on, share ideas, and connect over good food & great energy.\n\nThis event brought together passionate developers from across Delhi for an intimate evening of demos, networking, and community building. TechEra was honored to be the official Community Partner for this initiative.",
+    links:{ website:"#", linkedin:"#", instagram:"#" },
+    agenda:[],
+    organiserTeam:[],
+    speakers:[],
+    sponsors:[
+      {name:"CracKed",  tagline:"Powered By",      initials:"CK", accent:"#A78BFA"},
+      {name:"HERMEiAS", tagline:"Powered By",      initials:"HM", accent:"#4F46E5"},
+    ],
+    communityPartners:[
+      {name:"TechEra",  tagline:"Community Partner", initials:"TE", accent:"#00EEFF"},
+    ],
+    faqs:[
+      {q:"What was LockedIn about?",a:"LockedIn was an evening community event for builders, coders, and creators to showcase their work, share ideas, and network over food and great energy."},
+      {q:"Who organised LockedIn?",a:"LockedIn was powered by CracKed and HERMEiAS, with TechEra as the official Community Partner."},
+    ],
+  },
+  {
+    id:5,
+    name:"Technical Day 5.0",
+    organizer:"ACE – Association of Computer Enthusiasts",
+    date:"30–31 October 2025",
+    day:"Thursday & Friday",
+    time:"All Day",
+    fees:"Free",
+    mode:"Offline",
+    location:"VIPS Campus, New Delhi",
+    attendees:"TBA",
+    category:"Collaborations",
+    status:"expired",
+    registerLink:"#",
+    bannerUrl:null,
+    bannerGradient:"linear-gradient(135deg,#050d1a 0%,#061f0a 45%,#050d1a 100%)",
+    accentColor:"#4ADE80",
+    description:"The biggest tech fest of the year — organized by ACE (Association of Computer Enthusiasts) at VIPS campus, New Delhi, and proudly partnered with TechEra.\n\nGet ready for two power-packed days of innovation, collaboration, and hands-on experiences designed to ignite your inner techie.\n\nTechnical Day 5.0 featured competitions, workshops, and talks spread across two energetic days. TechEra was honored to be the Community Partner for this landmark edition of ACE's flagship annual event.",
+    links:{ website:"#", linkedin:"#", instagram:"#" },
+    agenda:[],
+    organiserTeam:[],
+    speakers:[],
+    sponsors:[
+      {name:"ACE", tagline:"Organized By", initials:"AC", accent:"#4ADE80"},
+    ],
+    communityPartners:[
+      {name:"TechEra", tagline:"Community Partner", initials:"TE", accent:"#00EEFF"},
+    ],
+    faqs:[
+      {q:"What is Technical Day 5.0?",a:"Technical Day 5.0 is the flagship annual tech fest organized by ACE (Association of Computer Enthusiasts) at VIPS campus, New Delhi, featuring competitions, workshops, and speaker sessions."},
+      {q:"What was TechEra's role?",a:"TechEra was the proud Community Partner for Technical Day 5.0, supporting the event with community reach and developer network engagement."},
+    ],
+  },
+  {
+    id:6, name:"PROMTHEIST", organizer:"Neuroplex",
+    date:"22nd November 2025", day:"Saturday", time:"TBA", mode:"Offline",
+    location:"Noida, Delhi", attendees:"TBA", category:"Collaborations",
+    status:"expired", registerLink:"#",
+    bannerUrl:null, bannerGradient:"linear-gradient(135deg,#0a0a1a 0%,#1a0a2e 40%,#0d0a1f 100%)", accentColor:"#F97316",
+    description:"PromptHeist is a prompt engineering challenge designed to uncover the smartest minds who can bend AI to their will.\n\nIn this high-stakes competition, participants enter the world of AI prompt strategy, creativity, and manipulation — where the mission is simple: outsmart the machine before others do.\n\nTechEra was proud to be the Community Partner for this one-of-a-kind AI challenge by Neuroplex.",
+    links:{website:"#",linkedin:"#",instagram:"#"},
+    agenda:[], organiserTeam:[], speakers:[],
+    sponsors:[{name:"Neuroplex",tagline:"Organized By",initials:"NP",accent:"#F97316"}],
+    communityPartners:[{name:"TechEra",tagline:"Community Partner",initials:"TE",accent:"#00EEFF"}],
+    faqs:[
+      {q:"What was PROMTHEIST?",a:"PromptHeist is a prompt engineering challenge where participants compete to outsmart AI using creative and strategic prompting techniques."},
+      {q:"What was TechEra's role?",a:"TechEra served as the official Community Partner for PROMTHEIST by Neuroplex."},
+    ],
+  },
+  {
+    id:7, name:"CODEZEN 2", organizer:"CodeGeeks – GTB4CEC",
+    date:"February 2026", day:"TBA", time:"TBA", mode:"Offline",
+    location:"Delhi NCR", attendees:"TBA", category:"Collaborations",
+    status:"expired", registerLink:"#",
+    bannerUrl:null, bannerGradient:"linear-gradient(135deg,#0a0515 0%,#1a0528 40%,#100a1a 100%)", accentColor:"#EC4899",
+    description:"TechEra is thrilled to collaborate with CodeGeeks, the coding society of GTB4CEC, as Community Partners for CodeZen — the national-level hackathon where creators, coders, and innovators unite to build the extraordinary.\n\nThis edition comes with a Stranger Things-inspired theme, bringing a spooky, electrifying atmosphere that will push your creativity beyond the ordinary.",
+    links:{website:"#",linkedin:"#",instagram:"#"},
+    agenda:[], organiserTeam:[], speakers:[],
+    sponsors:[{name:"CodeGeeks",tagline:"Organized By",initials:"CG",accent:"#EC4899"}],
+    communityPartners:[{name:"TechEra",tagline:"Community Partner",initials:"TE",accent:"#00EEFF"}],
+    faqs:[
+      {q:"What is CodeZen 2?",a:"CodeZen 2 is a national-level hackathon organized by CodeGeeks (GTB4CEC) with a Stranger Things-inspired theme."},
+      {q:"What was TechEra's role?",a:"TechEra participated as the official Community Partner for CodeZen 2."},
+    ],
+  },
+  {
+    id:8, name:"DUALITY HACKATHON: Genesis", organizer:"Genesis",
+    date:"13th December 2025", day:"Saturday", time:"All Day", mode:"Offline",
+    location:"Gurugram, Haryana", attendees:"TBA", category:"Collaborations",
+    status:"expired", registerLink:"#",
+    bannerUrl:null, bannerGradient:"linear-gradient(135deg,#050d1a 0%,#0a1528 40%,#050d1a 100%)", accentColor:"#06B6D4",
+    description:"What started as a hackathon quickly turned into an exciting day full of ideas, teamwork, learning, and fun.\n\nDuality AI Hackathon, organized by Genesis, delivered a great overall experience — engaging, well-managed, and genuinely enjoyable from start to finish.\n\nTechEra was honored to be the Community Partner for this fantastic event in Gurugram.",
+    links:{website:"#",linkedin:"#",instagram:"#"},
+    agenda:[], organiserTeam:[], speakers:[],
+    sponsors:[{name:"Genesis",tagline:"Organized By",initials:"GN",accent:"#06B6D4"}],
+    communityPartners:[{name:"TechEra",tagline:"Community Partner",initials:"TE",accent:"#00EEFF"}],
+    faqs:[
+      {q:"What was Duality Hackathon: Genesis?",a:"An AI-focused hackathon organized by Genesis in Gurugram — a full day of ideas, teamwork, and innovation."},
+      {q:"What was TechEra's role?",a:"TechEra was the official Community Partner for Duality Hackathon: Genesis."},
     ],
   },
 ];
@@ -407,7 +638,7 @@ const INVOLVEMENT_ROLES = [
 function GetInvolved() {
   return (
     <>
-      <div className="gi-divider" />
+      {/* <div className="gi-divider" />
       <section className="gi-section">
         <div className="gi-header">
           <div className="gi-eyebrow">
@@ -420,7 +651,7 @@ function GetInvolved() {
         <div className="gi-grid">
           {INVOLVEMENT_ROLES.map((role,i)=><RoleCard key={role.id} role={role} index={i} />)}
         </div>
-      </section>
+      </section> */}
     </>
   );
 }
@@ -495,11 +726,19 @@ function PersonCard({person}) {
         <div className="evd-person-name">{person.name}</div>
         <div className="evd-person-tagline">{person.tagline}</div>
         <div className="evd-person-socials">
-          {[{Icon:GitHubIcon,l:"GH"},{Icon:LinkedInIcon,l:"LI"},{Icon:InstaIcon,l:"IG"}].map(({Icon,l})=>(
+          {[{Icon:LinkedInIcon,l:"LI"},{Icon:InstaIcon,l:"IG"}].map(({Icon,l})=>(
             <a key={l} href="#" className="evd-soc" aria-label={l}
-              onMouseEnter={e=>{e.currentTarget.style.color=person.accent;e.currentTarget.style.borderColor=`${person.accent}40`;}}
-              onMouseLeave={e=>{e.currentTarget.style.color="#475569";e.currentTarget.style.borderColor="rgba(255,255,255,.07)";}}
-            ><Icon /></a>
+              onMouseEnter={e=>{
+                e.currentTarget.style.color=person.accent;
+                e.currentTarget.style.borderColor=`${person.accent}40`;
+              }}
+              onMouseLeave={e=>{
+                e.currentTarget.style.color="#475569";
+                e.currentTarget.style.borderColor="rgba(255,255,255,.07)";
+              }}
+            >
+              <Icon />
+            </a>
           ))}
         </div>
       </div>
@@ -689,7 +928,6 @@ function FAQContactTab({ev}) {
   );
 }
 
-// ─── REGISTRATION BANNER — only renders for status="active" events ─────────────
 function RegistrationBanner({ev}) {
   if (ev.status !== "active") return null;
   return (
@@ -726,7 +964,6 @@ function EventDetail({ev,onBack}) {
 
   return (
     <div style={{animation:"slideIn .35s ease-out both"}}>
-      {/* Header */}
       <div className="evd-header">
         <button className="evd-back-btn" onClick={onBack}><ArrowLeft /> Back to Events</button>
         <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",flexWrap:"wrap",gap:12,marginBottom:12}}>
@@ -744,23 +981,23 @@ function EventDetail({ev,onBack}) {
         </div>
       </div>
 
-      {/* Banner — wrapped in padded container to fix bleed issue */}
       <div className="evd-cover-wrap">
         <div className="evd-cover" style={{background:ev.bannerGradient}}>
-          <AnimatedCover accentColor={ev.accentColor} bannerUrl={ev.bannerUrl} />
+          {ev.category === "Collaborations"
+            ? <CollabBanner ev={ev} />
+            : <AnimatedCover accentColor={ev.accentColor} bannerUrl={ev.bannerUrl} />
+          }
           <div style={{position:"absolute",top:"30%",left:"30%",transform:"translate(-50%,-50%)",width:"40%",height:"60%",borderRadius:"50%",background:`${ev.accentColor}12`,filter:"blur(60px)",pointerEvents:"none"}} />
           <div className={statusBadge.cls} style={statusBadge.style}>{statusBadge.label}</div>
         </div>
       </div>
 
-      {/* Meta pills */}
       <div className="evd-meta-row">
         {[{label:"Event Date",val:ev.date,icon:"📅"},{label:"Event Day",val:ev.day,icon:"📆"},{label:"Event Time",val:ev.time,icon:"⏰"},{label:"Event Fees",val:ev.fees,icon:"🎟"},{label:"Event Mode",val:ev.mode,icon:"💻"},{label:"Location",val:ev.location,icon:"📍"}].map(({label,val,icon})=>(
           <div key={label} className="evd-meta-pill"><span className="evd-meta-label">{label}</span><span className="evd-meta-val">{icon} {val}</span></div>
         ))}
       </div>
 
-      {/* Tabs */}
       <div className="evd-tabs-wrap">
         <div className="evd-tabs">
           {DETAIL_TABS.map((tab,i)=>(
@@ -770,8 +1007,6 @@ function EventDetail({ev,onBack}) {
       </div>
 
       <div key={activeTab}>{panels[activeTab]}</div>
-
-      {/* Registration CTA — only shown for active events */}
       <RegistrationBanner ev={ev} />
     </div>
   );
@@ -848,7 +1083,7 @@ function CreateEventModal({onClose,onSubmit}) {
                   <label className="evd-form-label">Category</label>
                   <select className="evd-select" value={form.category} onChange={set("category")}>
                     <option value="">Select Category</option>
-                    {["Open Source","Hackathon","Summit","Workshop","Meetup","Conference","Webinar"].map(c=><option key={c} value={c}>{c}</option>)}
+                    {["Open Source","Hackathon","Summit","Workshop","Meetup","Conference","Webinar","Collaborations"].map(c=><option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
                 <div className="evd-form-group"><label className="evd-form-label">Expected Attendees</label><input className="evd-input" placeholder="500+" value={form.attendees} onChange={set("attendees")} /></div>
@@ -891,9 +1126,60 @@ function CreateEventModal({onClose,onSubmit}) {
   );
 }
 
+function CollabCard({ev}) {
+  const [hov,setHov]=useState(false);
+  const modeC={"Offline":{c:"#4ADE80",bg:"rgba(74,222,128,.15)"},"Online":{c:"#00EEFF",bg:"rgba(0,238,255,.12)"},"Hybrid":{c:"#A78BFA",bg:"rgba(167,139,250,.13)"}}[ev.mode]||{c:"#4ADE80",bg:"rgba(74,222,128,.15)"};
+  const acc = ev.accentColor || "#00EEFF";
+  const partners = (ev.sponsors||[]).filter(p=>p.name!=="TechEra");
+
+  return (
+    <div
+      className="ev-card collab-card"
+      onMouseEnter={()=>setHov(true)}
+      onMouseLeave={()=>setHov(false)}
+      style={{borderColor:hov?`${acc}40`:"rgba(255,255,255,.05)",boxShadow:hov?`0 20px 56px ${acc}18, 0 0 0 1px ${acc}18`:"none",transform:hov?"translateY(-6px)":"none",transition:"transform .35s cubic-bezier(.23,1,.32,1), border-color .35s, box-shadow .35s"}}
+    >
+      {/* Banner — taller, shows all info */}
+      <div className="ev-card-banner collab-banner-tall" style={{background:ev.bannerGradient,position:"relative"}}>
+        <CollabBanner ev={ev} />
+        {/* Mode badge */}
+        <div className="ev-card-mode-badge" style={{color:modeC.c,background:modeC.bg,border:`1px solid ${modeC.c}40`,backdropFilter:"blur(10px)"}}>{ev.mode}</div>
+      </div>
+
+      {/* Card body — overview info */}
+      <div className="ev-card-body">
+        {/* Org name */}
+        <div className="ev-card-org" style={{color:acc}}>{ev.organizer}</div>
+        {/* Event name */}
+        <div className="ev-card-name">{ev.name}</div>
+        {/* Date + location */}
+        <div className="ev-card-meta">
+          <div className="ev-card-meta-item"><CalIcon />{ev.date}</div>
+          <div className="ev-card-meta-item"><LocIcon />{ev.location}</div>
+        </div>
+        {/* Footer — mode tag only, no entry/fees */}
+        <div className="ev-card-footer" style={{justifyContent:"flex-end"}}>
+          <div style={{display:"flex",alignItems:"center",gap:6,padding:"4px 12px",borderRadius:999,border:`1px solid ${acc}30`,background:`${acc}0D`,fontSize:11,fontWeight:700,fontFamily:"Space Mono,monospace",color:acc,letterSpacing:".08em"}}>
+            🤝 COMMUNITY PARTNER
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function EventCard({ev,onClick}) {
   const [hov,setHov]=useState(false);
-  const modeC={"In-Person":{c:"#4ADE80",bg:"rgba(74,222,128,.12)"},"Online":{c:"#00EEFF",bg:"rgba(0,238,255,.1)"},"Hybrid":{c:"#A78BFA",bg:"rgba(167,139,250,.1)"}}[ev.mode]||{c:"#00EEFF",bg:"rgba(0,238,255,.1)"};
+  const modeC={
+    "In-Person":{c:"#4ADE80",bg:"rgba(74,222,128,.12)"},
+    "Online":{c:"#00EEFF",bg:"rgba(0,238,255,.1)"},
+    "Hybrid":{c:"#A78BFA",bg:"rgba(167,139,250,.1)"},
+    "Offline":{c:"#4ADE80",bg:"rgba(74,222,128,.12)"},
+    "Google Meet":{c:"#00EEFF",bg:"rgba(0,238,255,.1)"},
+  }[ev.mode]||{c:"#00EEFF",bg:"rgba(0,238,255,.1)"};
+
+  if (ev.category === "Collaborations") return <CollabCard ev={ev} />;
+
   return (
     <div className="ev-card" onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)} onClick={onClick}
       style={{borderColor:hov?`${ev.accentColor}30`:"rgba(255,255,255,.05)",boxShadow:hov?`0 16px 48px ${ev.accentColor}14`:"none"}}>
@@ -926,7 +1212,7 @@ function EventCard({ev,onClick}) {
 function EventsListing({events,onViewEvent,onCreateEvent}) {
   const [filter,setFilter]=useState("All");
   const [search,setSearch]=useState("");
-  const FILTERS=["All","Meetup","Hackathon","Workshop","Collab"];
+  const FILTERS=["All","Meetup","Hackathon","Workshop","Collaborations"];
   const filtered=events.filter(ev=>(filter==="All"||ev.category===filter)&&(!search||ev.name.toLowerCase().includes(search.toLowerCase())||ev.organizer.toLowerCase().includes(search.toLowerCase())));
   return (
     <div>
@@ -963,7 +1249,7 @@ function EventsListing({events,onViewEvent,onCreateEvent}) {
               <div style={{fontSize:16,fontWeight:700,color:"#64748B",marginBottom:6}}>No events found</div>
               <div style={{fontSize:13}}>Try a different search or filter</div>
             </div>
-          :filtered.map(ev=><EventCard key={ev.id} ev={ev} onClick={()=>onViewEvent(ev)} />)
+          :filtered.map(ev=><EventCard key={ev.id} ev={ev} onClick={ev.category==="Collaborations"?undefined:()=>onViewEvent(ev)} />)
         }
       </div>
       <GetInvolved />
