@@ -421,11 +421,7 @@ const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Events", href: "/events" },
   { label: "Team", href: "/team" },
-<<<<<<< HEAD
   { label: "Sponsors", href: "/sponsors" },
-=======
-  { label: "Sponsors", href: "/sponsor" },
->>>>>>> 7d713f7279cf0f40b28d44142602cfa16d2408b7
   { label: "Speakers", href: "/speakers" },
 ];
 
