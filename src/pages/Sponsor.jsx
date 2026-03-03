@@ -218,58 +218,24 @@ const SPECIAL_SPONSORS = [
   {
     id: "tech4hack",
     name: "Tech4Hack",
-    emoji: "🚀",
-    tier: "Platinum",
+    logo: "/logos/Tech4hack.jpeg",
+    tier: "Venue",
     tierColor: "#94A3B8",
     tierBg: "rgba(148,163,184,.08)",
     tierBorder: "rgba(148,163,184,.25)",
     accent: "#94A3B8",
     gradient: "linear-gradient(135deg,#94A3B8,#64748B)",
-    tagline: "Our longest-standing partner — providing venues, technical resources, and community muscle for every TechEra event.",
+    tagline: "Our longest-standing partner providing venues, technical resources, and community support for TechEra events.",
     tags: ["Venue Partner", "Open Source", "Community"],
     events: ["Dev Meetup 2026", "Hackathon 2025", "Workshop Series"],
-    featured: true,
-    perks: [
-      { icon: "🏢", title: "Venue Access", desc: "Provides premium tech spaces for all major TechEra offline events across NCR." },
-      { icon: "🤝", title: "Community Bridge", desc: "Co-hosts events, expanding combined reach to 5,000+ developers." },
-      { icon: "📣", title: "Co-branded Campaigns", desc: "Joint social media and content campaigns across both communities." },
-    ],
+    featured: false   // ✅ Now small card
   },
-  {
-    id: "edubuk",
-    name: "Edubuk",
-    emoji: "🎓",
-    tier: "Gold",
-    tierColor: "#FEBC2E",
-    tierBg: "rgba(254,188,46,.08)",
-    tierBorder: "rgba(254,188,46,.3)",
-    accent: "#FEBC2E",
-    gradient: "linear-gradient(135deg,#FEBC2E,#F97316)",
-    tagline: "Powering career growth for our community through blockchain-verified credentials, job placements, and skill partnerships.",
-    tags: ["Knowledge Partner", "Career", "Blockchain"],
-    events: ["CV to Career Workshop", "Dev Meetup 2026"],
-    featured: false,
-  },
-  {
-    id: "osen",
-    name: "OSEN",
-    emoji: "🎁",
-    tier: "Silver",
-    tierColor: "#A78BFA",
-    tierBg: "rgba(167,139,250,.08)",
-    tierBorder: "rgba(167,139,250,.3)",
-    accent: "#A78BFA",
-    gradient: "linear-gradient(135deg,#A78BFA,#4F46E5)",
-    tagline: "Bringing smiles and brand moments to every TechEra event with curated goodies and swag packages.",
-    tags: ["Goodies Partner", "Swag"],
-    events: ["Dev Meetup 2026"],
-    featured: false,
-  },
+
   {
     id: "digimation",
     name: "Digimation Flight",
-    emoji: "🍕",
-    tier: "Community",
+    logo: "/logos/Digimation.jpeg",
+    tier: "Platinum",
     tierColor: "#00EEFF",
     tierBg: "rgba(0,238,255,.07)",
     tierBorder: "rgba(0,238,255,.25)",
@@ -278,9 +244,93 @@ const SPECIAL_SPONSORS = [
     tagline: "Fuelling developers and creators at TechEra events with quality food and hospitality that keeps the energy running all day.",
     tags: ["Food Partner", "Hospitality"],
     events: ["Dev Meetup 2026"],
+    featured: true,   // ✅ Now big featured card
+
+    // ✅ Added perks section like Tech4Hack had
+    perks: [
+      {
+        icon: "🍕",
+        title: "Event Catering",
+        desc: "Provides high-quality meals and refreshments for all major TechEra offline events."
+      },
+      {
+        icon: "⚡",
+        title: "Energy Partner",
+        desc: "Keeps attendees fueled and engaged throughout hackathons and meetups."
+      },
+      {
+        icon: "🤝",
+        title: "Hospitality Support",
+        desc: "Ensures smooth hospitality management and premium attendee experience."
+      }
+    ]
+  },
+
+  {
+    id: "edubuk",
+    name: "Edubuk",
+    logo: "/logos/Edubuk.jpeg",
+    tier: "Job and Recruitment",
+    tierColor: "#FEBC2E",
+    tierBg: "rgba(254,188,46,.08)",
+    tierBorder: "rgba(254,188,46,.3)",
+    accent: "#FEBC2E",
+    gradient: "linear-gradient(135deg,#FEBC2E,#F97316)",
+    tagline: "Powering career growth through blockchain credentials and placements.",
+    tags: ["Knowledge Partner", "Career", "Blockchain"],
+    events: ["CV to Career Workshop", "Dev Meetup 2026"],
+    featured: false,
+  },
+
+  {
+    id: "osen",
+    name: "OSEN",
+    logo: "/logos/OSEN.png",
+    tier: "In-Kind",
+    tierColor: "#A78BFA",
+    tierBg: "rgba(167,139,250,.08)",
+    tierBorder: "rgba(167,139,250,.3)",
+    accent: "#A78BFA",
+    gradient: "linear-gradient(135deg,#A78BFA,#4F46E5)",
+    tagline: "Curated goodies and swag for memorable TechEra events.",
+    tags: ["Goodies Partner", "Swag"],
+    events: ["Dev Meetup 2026"],
+    featured: false,
+  },
+
+  {
+    id: "MetaSpace",
+    name: "MetaSpace",
+    logo: "/logos/Metaspace.jpeg",
+    tier: "Goodies",
+    tierColor: "#FEBC2E",
+    tierBg: "rgba(254,188,46,.08)",
+    tierBorder: "rgba(254,188,46,.3)",
+    accent: "#FEBC2E",
+    gradient: "linear-gradient(135deg,#FEBC2E,#F97316)",
+    tagline: "Career growth and verified credential partnerships.",
+    tags: ["Knowledge Partner", "Career"],
+    events: ["Dev Meetup 2026"],
+    featured: false,
+  },
+
+  {
+    id: "OppSkill",
+    name: "Opp Skill",
+    logo: "/logos/Oppskill.png",
+    tier: "Innovation",
+    tierColor: "#FEBC2E",
+    tierBg: "rgba(254,188,46,.08)",
+    tierBorder: "rgba(254,188,46,.3)",
+    accent: "#FEBC2E",
+    gradient: "linear-gradient(135deg,#FEBC2E,#F97316)",
+    tagline: "Empowering developers with skill-based growth programs.",
+    tags: ["Knowledge Partner", "Career"],
+    events: ["Dev Meetup 2026"],
     featured: false,
   },
 ];
+
 
 const BENEFITS = [
   { icon: "👁️", color: "#00EEFF", bg: "rgba(0,238,255,.1)", border: "rgba(0,238,255,.2)", title: "Brand Visibility", desc: "Your logo on all event materials, banners, digital assets, and social media posts reaching 10K+ developers." },
@@ -366,11 +416,14 @@ function FeaturedSponsorCard({ sp }) {
       <div className="sp-sponsor-logo-area">
         <div className="sp-logo-ring-wrap" style={{ marginLeft: 0 }}>
           <div className="sp-logo-ring" style={{ borderColor: sp.accent }} />
-          <div className="sp-logo-box" style={{ background: `${sp.accent}10`, borderColor: `${sp.accent}30`, boxShadow: hov ? `0 0 32px ${sp.accent}25` : "none" }}>
-            {sp.emoji}
-            {hov && <div className="sp-orbit-dot" style={{ background: sp.accent }} />}
-            {hov && <div className="sp-orbit-dot2" style={{ background: sp.accent, opacity: .5 }} />}
-          </div>
+          {/* // AFTER (uses logo image, consistent with FeaturedSponsorCard) */}
+<div className="sp-logo-box" style={{ background: `${sp.accent}10`, borderColor: `${sp.accent}28`, boxShadow: hov ? `0 0 22px ${sp.accent}20` : "none" }}>
+  <img
+    src={sp.logo}
+    alt={sp.name}
+    style={{ width: "60px", height: "60px", objectFit: "cover", borderRadius: "14px" }}
+  />
+</div>
         </div>
         <div style={{ marginBottom: 10 }}>
           <div className={`sp-tier-badge tier-${sp.tier.toLowerCase()}`} style={{ marginBottom: 10 }}>
@@ -419,7 +472,25 @@ function SponsorCard({ sp }) {
       <div className="sp-sponsor-logo-area">
         <div className="sp-logo-ring-wrap">
           <div className="sp-logo-ring" style={{ borderColor: sp.accent }} />
-          <div className="sp-logo-box" style={{ background: `${sp.accent}10`, borderColor: `${sp.accent}28`, boxShadow: hov ? `0 0 22px ${sp.accent}20` : "none" }}>{sp.emoji}</div>
+          <div
+            className="sp-logo-box"
+            style={{
+                background: `${sp.accent}10`,
+                borderColor: `${sp.accent}28`,
+                boxShadow: hov ? `0 0 22px ${sp.accent}20` : "none"
+            }}
+            >
+            <img
+                src={sp.logo}
+                alt={sp.name}
+                style={{
+                width: "60px",
+                height: "60px",
+                objectFit: "cover",
+                borderRadius: "14px"
+                }}
+            />
+            </div>
         </div>
         <div className={`sp-tier-badge tier-${sp.tier.toLowerCase()}`} style={{ marginBottom: 10 }}>
           <span style={{ width: 5, height: 5, borderRadius: "50%", background: sp.tierColor, display: "inline-block" }} />
